@@ -7,7 +7,7 @@ const socket = io('http://localhost/3000');
 class MessageList extends Component {
   state = {
     endpoint: 'http://localhost/3000',
-    messages: [],
+    receivedMessages: [],
     newMessageBody: ''
   }
 
@@ -24,18 +24,20 @@ class MessageList extends Component {
     this.setState({ newMessageBody: '' })
   }
 
-
-  // componentDidMount() {
-  //   socket.emit('messages')
-  // }
-
+  componentDidMount() {
+    socket.on('received message', (receivedMessage) => {
+      this.setState((currentState) => {
+        return { receivedMessages: [...currentState.receivedMessages, receivedMessage] }
+      })
+    })
+  }
 
   render() {
-    const { messages } = this.state;
+    const { receivedMessages } = this.state;
     return (
       <div>
         <ul>
-          {messages.map(message => {
+          {receivedMessages.map(message => {
             return <li>{message.body}</li>
           })}
         </ul>
