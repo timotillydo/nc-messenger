@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS nc_messenger;
+CREATE DATABASE nc_messenger;
